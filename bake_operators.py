@@ -209,14 +209,30 @@ class BakingOperator(object):
             source_bones_matrix_basis.append(context.object.pose.bones[source_bone.name].matrix_basis.copy())
             source_bone.select = True
 
+        bake_options = bpy_extras.anim_utils.BakeOptions(
+            do_pose=True,
+            do_object=False,
+            do_visual_keying=True,
+            only_selected=True,
+            do_constraint_clear=True,
+            do_parents_clear=True,
+            do_clean=True,
+            do_location=True,
+            do_rotation=True,
+            do_scale=True,
+            do_bbone=True,
+            do_custom_props=True
+            )
+
         baked_action = bpy_extras.anim_utils.bake_action(
             context.object,
             action=None,
             frames=range(self.frame_start, self.frame_end + 1),
-            only_selected=True,
-            do_pose=True,
-            do_object=False,
-            do_visual_keying=True,
+            bake_options=bake_options,
+            # only_selected=True,
+            # do_pose=True,
+            # do_object=False,
+            # do_visual_keying=True,
         )
 
         # restoring context
